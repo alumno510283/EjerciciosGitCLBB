@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+        //Pedir un email
+        const email=prompt("Introduzca su email: ").trim();
+        const modifi=email.indexOf("@");
+
+        //Comprueba el email
+        if (modifi !== -1) {
+            //Muestra el nombre de usuario que saca del email que hemos proporcionado antes
+            const usuario=email.substring(0,modifi);
+            console.log(`El nombre de usuario es: ${usuario}`);
+        } else {
+            //Si no funciona ese mail aparece este error en la consola
+            console.log("Este email no es valido");
+        }
+    </script>
+</body>
+</html>

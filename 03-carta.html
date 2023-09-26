@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+        //Pedir datos al usuario
+        const NOMBRE=prompt("Introduzca su nombre: ").trim();
+        const CURSO=prompt("Introduzca el nombre del curso: ").trim();
+        const LOCALIDAD=prompt("Introduzca la localidad: ").trim();
+        const FECHA_INICIO=prompt("Introduzca la fecha de inicio del curso: ").trim();
+        const FEHCA_FIN=prompt("Introduzca la fecha de fin del curso: ").trim();
+        //Crear la carta que aparece en el ejercicio
+        const carta=`
+        Estimado ${NOMBRE},
+        
+        Bienvenido al curso de ${CURSO} que se celebrará en la localidad de ${LOCALIDAD} entre las fechas ${FECHA_INICIO} y ${FEHCA_FIN}. Espero que el curso se 
+        desarrolle según sus expectativas. Estaremos encantados de atenderle.
+        
+        Atentamente,
+        La dirección.`;
+        //Mostrar la carta
+        console.log(carta);
+    </script>
+</body>
+</html>

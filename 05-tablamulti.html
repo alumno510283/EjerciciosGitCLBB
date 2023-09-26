@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <script>
+        //Solicitar un numero y convertirlo en entero
+        const num=prompt("Introduzca un numero: ");
+        const numInt=parseInt(num);
+
+        //Comprobar si el numero es valido y mayor o igual a 0
+        if (!isNaN(numInt)&&numInt >= 0) {
+            console.log(`Tabla de multiplicar de ${numInt}:`);
+
+            //Calcular y mostrar la tabla de multiplicar
+            for (let i=1;i<=10;i++) {
+                console.log(`${numInt} x ${i}=${numInt * i}`);
+            }
+        } else {
+            console.warn("Introduzca un numero valido que sea mayor o igual que 0");
+        }
+    </script>
+</body>
+</html>

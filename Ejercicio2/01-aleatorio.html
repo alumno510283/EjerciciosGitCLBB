@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const numeroAleatorio = (maximo) => {
+            const nrDecimalAleatorio = Math.random();
+            const nrEnteroAleatorio = Math.round(nrDecimalAleatorio * maximo);
+            return nrEnteroAleatorio;
+        };
+
+        const premios = [];
+        for (let i = 0; i < 10; i++) {
+            premios.push(numeroAleatorio(99999));
+        }
+
+        const tabla = document.createElement('table');
+        tabla.border = '1';
+
+        for (let i = 0; i < premios.length; i++) {
+            const fila = tabla.insertRow();
+            const celda = fila.insertCell();
+            celda.innerText = `Premio ${i + 1}: ${premios[i]}`;
+        }
+
+        document.body.appendChild(tabla);
+    </script>
+</body>
+
+</html>

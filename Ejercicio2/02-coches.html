@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function coche(marca_in, modelo_in, precio_in, anno_in, url_in) {
+            this.marca = marca_in;
+            this.modelo = modelo_in;
+            this.precio = precio_in;
+            this.anno = anno_in;
+            this.url = url_in;
+        }
+
+        let listaCoches = new Array(5);
+        listaCoches[0] = new coche("BMW", "M3", "75.000", "2021", "img/bmw.jpeg");
+        listaCoches[1] = new coche("Mercedes", "Clase G", "280.000", "2022", "img/mercedes.jpg");
+        listaCoches[2] = new coche("Seat", "Ibiza", "4.000", "2008", "img/seat.jpg");
+        listaCoches[3] = new coche("Audi", "RS3", "100.000", "2023", "img/audi.jpg");
+        listaCoches[4] = new coche("Volkswagen", "Golf GTI", "30.000", "2019", "img/golf.jpeg");
+
+        for (i = 0; i < listaCoches.length; i++) {
+            document.write("<b>Marca:</b> " + listaCoches[i].marca + " - <b>Modelo:</b> " + listaCoches[i].modelo + " - <b>Precio:</b> " + listaCoches[i].precio + " - <b>Año Matriculación:</b> " + listaCoches[i].anno + "<br>");
+            document.write('<img src="' + listaCoches[i].url + '" alt="Imagen del coche" style="width: 200px; height: 150px;"><br><br>');
+        }
+
+        
+    </script>
+</body>
+
+</html>
+
+FATLA ESTO: En el mismo documento anterior crea una función “pintaCoches” que “pinte”
+en el documento un listado de objetos coche que le pasamos como
+parámetro.
+Dicha función pintará cada uno de los coches en un “card” de una tabla
+dentro de una rejilla que aloje 4 cards por línea.

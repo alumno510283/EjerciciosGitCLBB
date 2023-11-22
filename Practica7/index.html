@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+    <link href="signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+    <form class="form-signin" id="loginForm">
+        <img class="mb-4" src="./1.png" alt="" width="122" height="122">
+        <label for="inputEmail" class="sr-only">Email </label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Contraseña</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Recuérdame
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="authenticateUser()">Iniciar sesión</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2023 DAW</p>
+    </form>
+
+    <script>
+        function authenticateUser() {
+            const email = document.getElementById('inputEmail').value;
+            const password = document.getElementById('inputPassword').value;
+
+            // URL de la API para obtener la lista de usuarios
+            const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+            // Realizar una solicitud XMLHttpRequest a la API
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', apiUrl, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Parsear la respuesta JSON
+                    const users = JSON.parse(xhr.responseText);
+
+                    // Verificar credenciales
+                    const authenticatedUser = users.find(user => user.email === email && user.address.zipcode === password);
+
+                    if (authenticatedUser) {
+                        // Credenciales válidas, redirigir a la página blog.html
+                        window.open('blog.html', '_self');
+                    } else {
+                        // Credenciales inválidas, mostrar un mensaje de error
+                        alert('Credenciales inválidas, inténtelo otra vez.');
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

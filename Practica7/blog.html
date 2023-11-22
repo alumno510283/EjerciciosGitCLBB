@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-navbar {
+            background-color: #343A40;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Mi Blog Backend</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="accedeUsers()">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="accedePosts()">Posts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4" id="contentArea">
+    </div>
+
+    <script>
+        function accedeUsers() {
+            // URL de la API para obtener la lista de usuarios
+            const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+            // Realizar una solicitud Fetch a la API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => pintaUsuarios(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function pintaUsuarios(listausers) {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = ''; // Limpiar el área de contenido
+
+            // Crear una tabla de Bootstrap
+            const table = document.createElement('table');
+            table.classList.add('table');
+
+            // Crear el encabezado de la tabla
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Posts</th>
+                </tr>
+            `;
+            table.appendChild(thead);
+
+            // Crear el cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            listausers.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td><a href="#" onclick="pintaUsuario(${user.id})" data-userid="${user.id}">${user.username}</a></td>
+                    <td>${user.email}</td>
+                    <td><a href="#" onclick="obtenerPosts(${user.id})" data-userid="${user.id}">Mostrar Posts</a></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+
+            // Agregar la tabla al área de contenido
+            contentArea.appendChild(table);
+        }
+
+        function pintaUsuario(id) {
+            // URL de la API para obtener detalles específicos del usuario
+            const apiUrl = `https://jsonplaceholder.typicode.com/users/${id}`;
+
+            // Realizar una solicitud Fetch a la API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => mostrarDetallesUsuario(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function mostrarDetallesUsuario(usuario) {
+            const contenido = document.getElementById('contentArea');
+            contenido.innerHTML = ''; // Limpiar el área de contenido
+
+            // Crear una sección para mostrar detalles del usuario
+            const detallesUsuario = document.createElement('div');
+            detallesUsuario.innerHTML = '<h2>Detalles del Usuario</h2>';
+
+            // Crear elementos para mostrar detalles específicos del usuario
+            const nombre = document.createElement('p');
+            nombre.textContent = `Nombre: ${usuario.name}`;
+
+            const nUsuario = document.createElement('p');
+            nUsuario.textContent = `Usuario: ${usuario.username}`;
+
+            const email = document.createElement('p');
+            email.textContent = `Email: ${usuario.email}`;
+            
+            const idUsuario = document.createElement('p');
+            idUsuario.textContent = `ID: ${usuario.id}`;
+
+            // Agregar elementos a la sección de detalles
+            detallesUsuario.appendChild(nombre);
+            detallesUsuario.appendChild(nUsuario);
+            detallesUsuario.appendChild(email);
+            detallesUsuario.appendChild(idUsuario);
+
+            // Agregar la sección al área de contenido
+            contenido.appendChild(detallesUsuario);
+        }
+
+
+        function obtenerPosts(userId) {
+            // URL de la API para obtener los posts de un usuario específico
+            const apiUrl = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
+
+            // Realizar una solicitud Fetch a la API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => pintaPosts(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function pintaPosts(posts) {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = ''; // Limpiar el área de contenido
+
+            // Crear una sección para mostrar los posts
+            const postsSection = document.createElement('div');
+            postsSection.innerHTML = '<h2>Posts</h2>';
+
+            // Mostrar solo los primeros 5 posts
+            const postsToShow = posts.slice(0, 5);
+
+            // Crear la lista de posts
+            const ul = document.createElement('ul');
+            postsToShow.forEach(post => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${post.title}</strong>
+                    <p>${post.body}</p>
+                    <p>Creado por: <a href="#" onclick="pintaUsuario(${post.userId})">${post.userId}</a></p>
+                `;
+                ul.appendChild(li);
+            });
+
+            postsSection.appendChild(ul);
+
+            // Agregar botones para mostrar los siguientes 5 posts
+            if (posts.length > 5) {
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Mostrar Siguientes 5 Posts';
+                nextButton.addEventListener('click', function () {
+                    const remainingPosts = posts.slice(5);
+                    pintaPosts(remainingPosts);
+                });
+                postsSection.appendChild(nextButton);
+            }
+
+            // Agregar la sección al área de contenido
+            contentArea.appendChild(postsSection);
+        }
+
+        function accedePosts() {
+            // URL de la API para obtener todos los posts
+            const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+            // Realizar una solicitud Fetch a la API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => pintaPosts(data))
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
